@@ -1,15 +1,44 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { GoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+import jwt_decode from 'jwt-decode';
 import { useNavigate } from 'react-router-dom';
+import { gapi } from "gapi-script"
 import {FcGoogle } from 'react-icons/fc';
 import shareVideo from '../assets/share.mp4';
 import  logo  from '../assets/logowhite.png';
 
-const Login = () => {
- 
+import { client } from '../client';
+
+function Login()  {
+    const clientId = process.env.REACT_APP_GOOGLE_API_TOKEN;
+    useEffect(() => {
+    const initClient = () => {
+        gapi.client.init({
+        clientId: clientId,
+        scope: "",
+        });
+    };
+    gapi.load("client:auth2", initClient);
+    }); 
+
+  const navigate = useNavigate();  
   const responseGoogle = (response) => {
-    console.log(response);
-  }  
+    const decode = jwt_decode(response.credential);
+    localStorage.setItem('user', JSON.stringify(decode));
+
+    const { name, sub, picture } = decode;
+
+     const doc = {
+      _id: sub,
+      _type: 'user',
+      userName: name,
+      image: picture,
+    };
+
+    client.createIfNotExists(doc).then(() => {
+      navigate('/', { replace: true });
+    });
+  }; 
 
   return (
     <div className='flex justify-start items-center flex-col h-screen'>

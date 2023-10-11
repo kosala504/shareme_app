@@ -39,7 +39,7 @@ export default defineType({
         type: 'string',
       },
       {
-        name: 'postedby',
+        name: 'postedBy',
         title: 'PostedBy',
         type: 'postedBy',
       },

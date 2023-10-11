@@ -4,5 +4,5 @@ export default defineType({
   name: 'postedBy',
   title: 'PostedBy',
   type: 'reference',
-  to: [{ type:'user' }]
+  to: [{ type:'user' }],
 })

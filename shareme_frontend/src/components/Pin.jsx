@@ -93,10 +93,10 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save}}) => {
                   >
                     {' '}
                     <BsFillArrowUpRightCircleFill />
-                    {destination.length > 20 ? destination.slice(12, 22) : destination.slice(8)}  
+                    {destination.length > 15 ? `${destination.slice(0,15)}...` : destination}  
                   </a>
                 )}
-                {postedBy?._id === user.googleId && (
+                {postedBy?._id === user?.sub && (
                   <button
                     type='button'
                     onClick={(e) => {
@@ -112,7 +112,7 @@ const Pin = ({ pin: { postedBy, image, _id, destination, save}}) => {
         </div>
       )}
       </div>
-      <Link to={`/user-profile/${postedBy?.sub}`} className="flex gap-2 mt-2 items-center">
+      <Link to={`/user-profile/${postedBy?._id}`} className="flex gap-2 mt-2 items-center">
         <img
           className='w-8 h-8 rounded-full object-cover'
           src={postedBy?.image}
